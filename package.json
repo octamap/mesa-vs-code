@@ -6,7 +6,7 @@
   "engines": {
     "vscode": "^1.96.0"
   },
-  "icon": "icon.png",
+  "icon": "images/icon.png",
   "categories": [
     "Other"
   ],
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/octamap/mesa-vs-code"
   },
-  "publisher": "",
+  "publisher": "octamap",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
