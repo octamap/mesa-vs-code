@@ -1,5 +1,5 @@
 import findViteConfig from "./findViteConfig";
-import readComponentMappings from "./readComponentMappings";
+import readComponentMappings from "./reader/readComponentMappings";
 
 let current: { path: string, configPath: string, mappings: Promise<Record<string, string>>, clearTimeout: any } | undefined
 

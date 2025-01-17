@@ -8,6 +8,9 @@ import path from 'path';
  */
 export default function getAllChildrenOfFolder(dir: string): string[] {
     let results: string[] = [];
+    if (!fs.existsSync(dir)) {
+        return []
+    }
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {

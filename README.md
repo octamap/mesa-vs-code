@@ -1,7 +1,10 @@
-# 🚀 **Mesa VS Code Extension (Beta)**  
+# 🚀 **Mesa VS Code Extension**  
 **A companion extension for the Mesa build-time HTML component engine.**  
 
-This extension provides **type completion** and **syntax highlighting** for Mesa components, making development with Mesa in Visual Studio Code even more productive and enjoyable.  
+This extension provides **type completion** and **syntax highlighting** for Mesa components, making development with Mesa in Visual Studio Code even more productive and enjoyable. 
+
+#### Known Issues:
+The latest versions of the Vue VS Code extension may interfere with this extension. To resolve this, consider using an earlier version of the Vue VS Code extension.
 
 ---
 
@@ -46,6 +49,12 @@ npx @octamap/create-mesa@latest project-name
   - Named target type completions.  
   - Syntax highlighting for Mesa components.
 
+### **1.0.2**
+- Improved code structure.
+- Enhanced logic for identifying components.
+- Added support for scenarios where Mesa is initialized like this: Mesa(() => { "comp": "./some/comp.html" })
+  - This initialization method will be officially supported in the next Mesa version.
+  - Using () => initializers enables detection of component additions or deletions during development (HMR).
 ---
 
 **Enjoy faster, smarter Mesa development with this extension!** 🚀

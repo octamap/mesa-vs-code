@@ -12,18 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "mesa" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('mesa.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Mesa!');
-	});
-	
-	context.subscriptions.push(disposable);
+	console.log("Mesa is now active!");
 	context.subscriptions.push(getHoverHtmlProvider());
 	context.subscriptions.push(getTagCompletionProvider());
 
@@ -31,9 +20,28 @@ export function activate(context: vscode.ExtensionContext) {
 	const selector = { language: 'html', scheme: 'file' };
 	context.subscriptions.push(...getDecorationProviders())
 
-	if (vscode.window.activeTextEditor?.document.languageId === 'html') {
-		applyDecorations(vscode.window.activeTextEditor.document);
-	}
+	const applyDecorationsIfHtml = (editor: vscode.TextEditor | undefined) => {
+		if (editor?.document.languageId === 'html') {
+			applyDecorations(editor.document);
+		}
+	};
+
+	applyDecorationsIfHtml(vscode.window.activeTextEditor);
+
+	// Listen for when the active editor changes
+	vscode.window.onDidChangeActiveTextEditor((editor) => {
+		applyDecorationsIfHtml(editor);
+	}, null, context.subscriptions);
+
+	// Listen for document changes (e.g., file opened)
+	vscode.workspace.onDidOpenTextDocument((document) => {
+		if (document.languageId === 'html') {
+			const editor = vscode.window.visibleTextEditors.find((ed) => ed.document === document);
+			if (editor) {
+				applyDecorations(editor.document);
+			}
+		}
+	}, null, context.subscriptions);
 }
 
 // This method is called when your extension is deactivated

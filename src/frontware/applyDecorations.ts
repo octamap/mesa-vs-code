@@ -56,9 +56,8 @@ export default async function applyDecorations(document: TextDocument) {
         }
     });
 
-    // Clear old decorations by setting an empty range array
-    editor.setDecorations(decorationType, []);
 
+    // Clear old decorations by setting an empty range array
     editor.setDecorations(decorationType, ranges);
 
     const slotDecoratorRanges = await Promise.all(Array.from(usedComponents).map(async x => {
@@ -66,8 +65,6 @@ export default async function applyDecorations(document: TextDocument) {
         return await getSlotDecoratorRanges(x, path, text, document)
     }))
     if (currentSession != session) return;
-
-    editor.setDecorations(slotDecorationType, [])
 
     editor.setDecorations(slotDecorationType, slotDecoratorRanges.flat())
 }

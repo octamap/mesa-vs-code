@@ -2,7 +2,7 @@
   "name": "mesa",
   "displayName": "Mesa",
   "description": "Intellisense for Mesa",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "vscode": "^1.96.0"
   },
@@ -17,18 +17,13 @@
   "publisher": "octamap",
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "license": "MIT",
   "contributes": {
     "semanticTokenTypes": [
       {
         "id": "mesaComponent",
         "description": "Custom components detected dynamically",
         "superType": "type"
-      }
-    ],
-    "commands": [
-      {
-        "command": "mesa.helloWorld",
-        "title": "Hello World"
       }
     ],
     "languages": [
