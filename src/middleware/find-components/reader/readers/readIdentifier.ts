@@ -1,23 +1,30 @@
-import ts from "typescript";
 import findImportDeclaration from "../../node-traversal/findImportDeclaration";
 import ReadContext from "../../../types/ReadContext";
 import findAllPackagesInWorkspace from "../../findAllPackagesInWorkspace";
 import path from "path";
+import * as fs from "fs"
 import getAbsoloutePathToPackageExport from "../../node-traversal/getAbsoloutePathToPackageExport";
 import findVariableDeclarationInFile from "../../node-traversal/findVariableDeclarationInFile";
 import getComponentsForFolderDefinition from "../../node-traversal/getComponentsForFolderDefinition";
 
-export default async function readIdentifier(identifierExpr: ts.Identifier, context: ReadContext) {
-    const varName = identifierExpr.text;
-    const importPath = findImportDeclaration(context.sourceFile, identifierExpr.text) as string | null;
+export default async function readIdentifier(varName: string, context: ReadContext) {
+    const importPath = findImportDeclaration(context.sourceFile, varName) as string | null;
 
     if (importPath) {
 
         // 2 - Resolve the file path 
         const paths: { absolutePath: string, projectDirectory: string } | null = await(async () => {
             try {
-                const p = require.resolve(importPath, { paths: [context.sourceFileFolder] });
-                return { absolutePath: p, projectDirectory: context.sourceFileFolder }
+                try {
+                    const p = require.resolve(importPath, { paths: [context.sourceFileFolder] });
+                    return { absolutePath: p, projectDirectory: context.sourceFileFolder }
+                } catch (error) {
+                    const absolutePath = path.resolve(context.sourceFileFolder, importPath)
+                    if (!fs.existsSync(absolutePath)) {
+                        throw error;
+                    }
+                    return { absolutePath: absolutePath, projectDirectory: context.sourceFileFolder }
+                }
             } catch (error) {
                 const packages = await findAllPackagesInWorkspace()
                 const packageNames = Object.keys(packages).filter(x => importPath.startsWith(x))

@@ -5,7 +5,7 @@ import { getLanguageService, TextDocument } from 'vscode-html-languageservice'
 
 export default function getHoverHtmlProvider() {
     const htmlLanguageService = getLanguageService();
-    return languages.registerHoverProvider('mesa', {
+    return languages.registerHoverProvider('html', {
         provideHover(document, position) {
             const text = document.getText();
             const html = extractTemplateContent(text);

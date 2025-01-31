@@ -1,8 +1,8 @@
-import * as fs from 'fs';
+import * as fs from 'fs/promises';
 import * as path from 'path';
 import { window, workspace } from "vscode";
 
-let cachedPackages: Promise<Record<string, string> > | undefined
+let cachedPackages: Promise<Record<string, string>> | undefined
 
 export default async function findAllPackagesInWorkspace(): Promise<Record<string, string>> {
     if (cachedPackages) return cachedPackages;
@@ -19,11 +19,11 @@ export default async function findAllPackagesInWorkspace(): Promise<Record<strin
         // Search for all `package.json` files in the workspace
         const packageJsonFiles = await workspace.findFiles('**/package.json', '**/node_modules/**');
 
-        for (const fileUri of packageJsonFiles) {
+        await Promise.all(packageJsonFiles.map(async fileUri => {
             const packageJsonPath = fileUri.fsPath;
 
             try {
-                const content = fs.readFileSync(packageJsonPath, 'utf-8');
+                const content = await fs.readFile(packageJsonPath, 'utf-8');
                 const parsed = JSON.parse(content);
 
                 if (parsed.name) {
@@ -34,14 +34,14 @@ export default async function findAllPackagesInWorkspace(): Promise<Record<strin
             } catch (error) {
                 console.warn(`Failed to read or parse package.json at ${packageJsonPath}:`, error);
             }
-        }
-
+        }))
+   
         return packageMap;
     })()
     cachedPackages = newResponse
     await newResponse;
     setTimeout(() => {
         cachedPackages = undefined;
-    }, 2000);
+    }, 1000 * 8);
     return newResponse
 }

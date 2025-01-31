@@ -17,7 +17,7 @@ export default async function readComponentMappingsForPath(path: string) {
     clearTimeout(current?.clearTimeout)
     const timeout = setTimeout(() => {
         current = undefined
-    }, 2000);
+    }, 7000);
     current = {
         path: path,
         configPath: viteConfigPath,

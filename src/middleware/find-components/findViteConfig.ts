@@ -5,7 +5,9 @@ export default function findViteConfig(currentDir: string): string | null {
     const configFileNames = ['vite.config.ts', 'vite.config.js']; // Support both .ts and .js
     let directory = currentDir;
 
-    while (true) {
+    let remainingAttempts = 30
+    while (remainingAttempts != 0) {
+        remainingAttempts -= 1
         for (const configFileName of configFileNames) {
             const configPath = path.join(directory, configFileName);
             if (fs.existsSync(configPath)) {
@@ -19,4 +21,5 @@ export default function findViteConfig(currentDir: string): string | null {
         }
         directory = parentDirectory;
     }
+    return null;
 }

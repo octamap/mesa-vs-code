@@ -1,10 +1,10 @@
 import * as fs from 'fs';
-import ts from 'typescript';
+import ts, { SyntaxKind } from 'typescript';
 import ComponentDefinition from '../../types/ComponentDefinition';
 import findDefinitionForCall from './findDefinitionForCall';
 
 
-export default function findVariableDeclarationInFile(filePath: string, variableName: string) : ComponentDefinition | null {
+export default function findVariableDeclarationInFile(filePath: string, variableName: string): ComponentDefinition | null {
     // Check if the file exists
     if (!fs.existsSync(filePath)) {
         console.error(`File not found: ${filePath}`);
@@ -29,7 +29,7 @@ export default function findVariableDeclarationInFile(filePath: string, variable
         // Check for a variable declaration with the matching name
         if (
             ts.isVariableDeclaration(node) &&
-            node.name.getText(sourceFile) === variableName 
+            node.name.getText(sourceFile) === variableName
         ) {
             const initializer = node.initializer;
 
@@ -38,6 +38,14 @@ export default function findVariableDeclarationInFile(filePath: string, variable
                 const foundNew = findDefinitionForCall(initializer, sourceFile)
                 if (foundNew) {
                     argument = foundNew
+                }
+            } else if (initializer && ts.isArrowFunction(initializer)) {
+                let body = initializer.body;
+                if (body && ts.isCallExpression(body)) {
+                    const definiton = findDefinitionForCall(body, sourceFile)
+                    if (definiton) {
+                        argument = definiton
+                    }
                 }
             }
         }

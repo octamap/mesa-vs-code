@@ -15,9 +15,6 @@ export function activate(context: vscode.ExtensionContext) {
 	console.log("Mesa is now active!");
 	context.subscriptions.push(getHoverHtmlProvider());
 	context.subscriptions.push(getTagCompletionProvider());
-
-	const legend = new vscode.SemanticTokensLegend(['mesaComponent']);
-	const selector = { language: 'html', scheme: 'file' };
 	context.subscriptions.push(...getDecorationProviders())
 
 	const applyDecorationsIfHtml = (editor: vscode.TextEditor | undefined) => {

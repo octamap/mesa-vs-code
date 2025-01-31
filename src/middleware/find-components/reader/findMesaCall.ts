@@ -1,11 +1,14 @@
 import ts, { isCallExpression, isObjectLiteralExpression } from "typescript";
 
-export default function findMesaCall(node: ts.Node, sourceFile: ts.SourceFile): ts.Expression[] | null | undefined {
+export default function findMesaCall(node: ts.Node, sourceFile: ts.SourceFile, remainingAttempts: number = 30): ts.Expression[] | null | undefined {
     const result = findIn(node, sourceFile)
     if (result) {
         return result
     }
-    return ts.forEachChild(node, x => findMesaCall(x, sourceFile));
+    return ts.forEachChild(node, x => {
+        const attempts = remainingAttempts - 1
+        return findMesaCall(x, sourceFile, attempts)
+    });
 }
 
 function findIn(node: ts.Node, sourceFile: ts.SourceFile): ts.Expression[] | null | undefined {
