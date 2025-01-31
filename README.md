@@ -55,6 +55,11 @@ npx @octamap/create-mesa@latest project-name
 - Added support for scenarios where Mesa is initialized like this: Mesa(() => { "comp": "./some/comp.html" })
   - This initialization method will be officially supported in the next Mesa version.
   - Using () => initializers enables detection of component additions or deletions during development (HMR).
+
+
+### **1.0.3**
+- More improvements to Mesa definition finder
+  - Preperations for future Mesa versions
 ---
 
 **Enjoy faster, smarter Mesa development with this extension!** 🚀
