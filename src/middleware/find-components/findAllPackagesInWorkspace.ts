@@ -17,7 +17,7 @@ export default async function findAllPackagesInWorkspace(): Promise<Record<strin
         const packageMap: Record<string, string> = {};
 
         // Search for all `package.json` files in the workspace
-        const packageJsonFiles = await workspace.findFiles('**/package.json', '**/node_modules/**');
+        const packageJsonFiles = await workspace.findFiles('**/package.json', '**/node_modules/**', 1000);
 
         await Promise.all(packageJsonFiles.map(async fileUri => {
             const packageJsonPath = fileUri.fsPath;

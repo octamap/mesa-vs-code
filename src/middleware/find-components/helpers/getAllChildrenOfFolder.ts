@@ -6,21 +6,28 @@ import path from 'path';
  * @param dir The directory to read.
  * @returns An array of absolute paths of all children (files and folders).
  */
-export default function getAllChildrenOfFolder(dir: string): string[] {
+export default function getAllChildrenOfFolder(dir: string, max: number = 10000): string[] {
     let results: string[] = [];
+    max -= 1;
+    if (max <= 0) return results
     if (!fs.existsSync(dir)) {
-        return []
+        return [];
     }
+
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
+        if (entry.isSymbolicLink()) {
+            continue; // ⛔️ Skip symlinks entirely
+        }
+
         const fullPath = path.join(dir, entry.name);
 
         if (entry.isDirectory()) {
-            // If it's a directory, recursively get its children
-            results = results.concat(getAllChildrenOfFolder(fullPath));
+            // Recursively get children of subdirectory
+            results = results.concat(getAllChildrenOfFolder(fullPath, max));
         } else {
-            // If it's a file, add it directly
+            // Add file
             results.push(fullPath);
         }
     }

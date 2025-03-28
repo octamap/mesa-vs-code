@@ -1,5 +1,4 @@
 import ts from "typescript";
-import * as fs from 'fs';
 import getAllChildrenOfFolder from "../helpers/getAllChildrenOfFolder";
 import path from "path";
 import { createNamesForPaths } from "../helpers/createNamesForPaths";

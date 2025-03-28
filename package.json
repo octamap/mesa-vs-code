@@ -2,7 +2,7 @@
   "name": "mesa",
   "displayName": "Mesa",
   "description": "Intellisense for Mesa",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "engines": {
     "vscode": "^1.96.0"
   },

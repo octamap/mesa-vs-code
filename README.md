@@ -60,6 +60,11 @@ npx @octamap/create-mesa@latest project-name
 ### **1.0.3**
 - More improvements to Mesa definition finder
   - Preperations for future Mesa versions
+
+### **1.0.4**
+- Can now jump to file where component is defined
+- Smaller bug fixes & performance improvements
+
 ---
 
 **Enjoy faster, smarter Mesa development with this extension!** 🚀

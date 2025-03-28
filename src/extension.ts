@@ -5,6 +5,7 @@ import getHoverHtmlProvider from './frontware/providers/getHoverHtmlProvider';
 import getTagCompletionProvider from './frontware/providers/getTagCompletionProvider';
 import getDecorationProviders from './frontware/providers/getDecorationProviders';
 import applyDecorations from './frontware/applyDecorations';
+import { getDefinitionProvider } from './frontware/providers/getDefinitionProvider';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -16,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(getHoverHtmlProvider());
 	context.subscriptions.push(getTagCompletionProvider());
 	context.subscriptions.push(...getDecorationProviders())
+	context.subscriptions.push(getDefinitionProvider());
 
 	const applyDecorationsIfHtml = (editor: vscode.TextEditor | undefined) => {
 		if (editor?.document.languageId === 'html') {
